@@ -1,9 +1,10 @@
 {
   "development": {
-    "username": "root",
-    "password": "mysql",
-    "database": "hackathon",
-    "host": "127.0.0.1",
+    "username": "nunsong",
+    "password": "",
+    "database": "smwu",
+    "host": "smwu-hackathon.czyov59wpw7q.us-east-2.rds.amazonaws.com",
+    "port": "3306",
     "dialect": "mysql"
   },
   "test": {
