@@ -76,9 +76,8 @@ try {
       provider: "kakao",
     },
   });
-  // 만약 이미 접속한 유저라면
-  if (exUser) {
-    const kakaoToken = await Token.create({
+  if (exUser) { 
+    const kakaoToken = await Token.update({
       accessToken: accessToken,
       email: profile._json.kakao_account.email
     })
