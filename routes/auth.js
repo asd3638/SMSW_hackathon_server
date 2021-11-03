@@ -26,7 +26,7 @@ router.get("/google/callback",
             accessToken: req.authInfo.dataValues.accessToken,
             email: req.authInfo.dataValues.email,
         }
-        res.redirect("http://ec2-18-218-203-237.us-east-2.compute.amazonaws.com:3000/")
+        res.redirect(`http://ec2-18-218-203-237.us-east-2.compute.amazonaws.com:3000?${email}``)
     });
 
 
