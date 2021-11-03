@@ -79,7 +79,7 @@ try {
   if (exUser) { 
     const kakaoToken = await Token.update({
       accessToken: accessToken,
-      email: profile._json.kakao_account.email
+      where: {email: profile._json.kakao_account.email}
     })
     return done(null, exUser, kakaoToken);
   } else {
