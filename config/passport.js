@@ -40,7 +40,7 @@ passport.use(
           const newUser = await User.create({
             email: profile.emails[0].value,
             password: hashedPassword,
-            nick: profile.displayName,
+            nickname: profile.displayName,
             snsId: profile.id,
             provider: "google",
           });
