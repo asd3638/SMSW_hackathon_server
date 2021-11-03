@@ -2,12 +2,14 @@ var express = require("express");
 var router = express.Router();
 var passport = require("../config/passport.js");
 const { User } = require("../models/user");
+const Token = require("../models/token");
 
 router.get("/login", function (req, res) {
   res.render("auth/login");
 });
 
-router.get("/logout", function (req, res) {
+//로그아웃
+router.get("/api/users/logout", function (req, res) {
   req.logout();
   res.redirect("/");
 });
