@@ -78,9 +78,9 @@ try {
   });
   if (exUser) { 
     const kakaoToken = await Token.update({
-      accessToken: accessToken,
-      where: {email: profile._json.kakao_account.email}
-    })
+      accessToken: accessToken},
+      {where: {email: profile._json.kakao_account.email}}
+    )
     return done(null, exUser, kakaoToken);
   } else {
     const hashedPassword = await bcrypt.hash(profile.displayName, 11);
