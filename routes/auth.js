@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("../config/passport.js");
+const { User } = require("../models/user");
 
 router.get("/login", function (req, res) {
   res.render("auth/login");
@@ -23,11 +24,8 @@ router.get("/google/callback",
             accessToken: req.authInfo.dataValues.accessToken,
             email: req.authInfo.dataValues.email,
         }
-        /*res.send(token = {
-            accessToken: req.authInfo.dataValues.accessToken,
-            email: req.authInfo.dataValues.email,
-        })*/
-        res.redirect(`http://ec2-18-218-203-237.us-east-2.compute.amazonaws.com:3000?accessToken=${token.accessToken}&email=${token.email}`)
+        res.redirect("http://ec2-18-218-203-237.us-east-2.compute.amazonaws.com:3000/")
     });
+
 
 module.exports = router;
