@@ -4,7 +4,7 @@ var passport = require("passport");
 var session = require("express-session");
 const { sequelize } = require("./models");
 
-app.set("view engine", "ejs");
+//app.set("view engine", "ejs");
 app.use(
   session({ secret: "MySecret", resave: false, saveUninitialized: true })
 );
@@ -25,7 +25,8 @@ app.use(passport.session());
 // Routes
 //app.use("/", require("./routes/main"));
 app.use("/auth", require("./routes/auth"));
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.send('Hello World!'));
+
 
 // Port setting
 var port = 8080;
