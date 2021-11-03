@@ -88,7 +88,7 @@ try {
     const newUser = await User.create({
       email: profile._json.kakao_account.email,
       password: hashedPassword,
-      nick: profile.displayName,
+      nickname: profile.displayName,
       snsId: profile.id,
       provider: "kakao",
     });
