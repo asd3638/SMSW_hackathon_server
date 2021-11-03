@@ -11,6 +11,7 @@ router.get("/login", function (req, res) {
 //로그아웃
 router.get("/api/users/logout", function (req, res) {
   req.logout();
+  
   res.redirect("/");
 });
 
