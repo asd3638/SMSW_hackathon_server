@@ -21,8 +21,6 @@ passport.use(
       passReqToCallback: true,
     },
     async function (request, accessToken, refreshToken, profile, done) {
-      //console.log("profile: ", profile);
-      //console.log("accessToken", accessToken);
       try {
         const exUser = await User.findOne({
           where: {
