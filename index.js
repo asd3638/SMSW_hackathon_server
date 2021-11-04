@@ -31,5 +31,5 @@ app.get("/api", (req, res) => res.send("Hello World!"));
 // Port setting
 var port = 8080;
 app.listen(port, function () {
-  console.log("server on! http://localhost:" + port);
+  console.log("server on!" + port);
 });
