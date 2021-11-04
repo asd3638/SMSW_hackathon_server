@@ -25,7 +25,8 @@ sequelize
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/api/auth", require("./routes/auth"));
+app.use("/auth", require("./routes/auth"));
+app.use("/api", require("./routes/user"));
 app.get("/api", (req, res) => res.send("Hello World!"));
 
 // Port setting
