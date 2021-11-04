@@ -32,7 +32,7 @@ passport.use(
         if (exUser) {
           const googleToken = await Token.create({
             accessToken: accessToken,
-            email: profile.emails[0].value,
+            user_id: exUser.id,
           })
           return done(null, exUser, googleToken);
         } else {
@@ -46,7 +46,7 @@ passport.use(
           });
           const googleToken = await Token.create({
             accessToken: accessToken,
-            email: profile.emails[0].value,
+            user_id: newUser.id,
           });
           done(null, newUser, googleToken);
         }
@@ -79,7 +79,7 @@ try {
   if (exUser) { 
     const kakaoToken = await Token.create({
       accessToken: accessToken,
-      email: profile._json.kakao_account.email
+      user_id: exUser.id,
 	   //{where: {email: profile._json.kakao_account.email}}
     })
     return done(null, exUser, kakaoToken);
@@ -94,7 +94,7 @@ try {
     });
     const kakaoToken = await Token.create({
       accessToken: accessToken,
-      email: profile._json.kakao_account.email
+      user_id: newUser.id,
     });
     done(null, newUser, kakaoToken);
   }
