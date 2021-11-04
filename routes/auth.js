@@ -4,10 +4,6 @@ var passport = require("../config/passport.js");
 const User = require("../models/user");
 const Token = require("../models/token");
 
-router.get("/login", function (req, res) {
-  res.render("auth/login");
-});
-
 //로그아웃
 router.get("/api/users/logout", async (req, res) => {
   req.logout(); //passport의 logout
@@ -17,6 +13,10 @@ router.get("/api/users/logout", async (req, res) => {
   //console.log("token deleted")
   res.redirect("/");
 });
+
+/*
+ * GOOGLE LOGIN
+ */
 
 router.get(
   "/google",
@@ -64,7 +64,7 @@ router.get(
 );
 
 //요청받은 유저정보 보내기
-router.get("/api/user", async (req, res) => {
+router.get("/user", async (req, res) => {
   try {
     console.log(req.body);
     const userId = await Token.findOne({

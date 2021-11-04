@@ -10,7 +10,7 @@ var app = express();
 app.use(
   session({ secret: "MySecret", resave: false, saveUninitialized: true })
 );
-app.use(express.json())
+app.use(express.json());
 
 sequelize
   .sync({ force: false })
@@ -25,11 +25,8 @@ sequelize
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
-//app.use("/", require("./routes/main"));
-app.use("/auth", require("./routes/auth"));
-app.get('/', (req, res) => res.send('Hello World!'));
-
+app.use("/api/auth", require("./routes/auth"));
+app.get("/api", (req, res) => res.send("Hello World!"));
 
 // Port setting
 var port = 8080;
