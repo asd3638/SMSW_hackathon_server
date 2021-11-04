@@ -1,5 +1,6 @@
 module.exports = {
-    client_id:"389439941657-6n0m75kcaks0l0d31ss1hqlb20lgf2h1.apps.googleusercontent.com",
+    client_id_google:"389439941657-6n0m75kcaks0l0d31ss1hqlb20lgf2h1.apps.googleusercontent.com",
+    client_id_kakao: "2b212c8495e1445374020dbc4d29da0b", 
     project_id:"test-chatbot-app-328213",
     auth_uri:"https://accounts.google.com/o/oauth2/auth",
     token_uri:"https://oauth2.googleapis.com/token",

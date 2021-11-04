@@ -3,7 +3,7 @@ var GoogleStrategy = require("passport-google-oauth2").Strategy;
 const User = require("../models/user");
 const Token = require("../models/token");
 const bcrypt = require("bcrypt");
-const google = require('./key');
+const config = require('./key');
 const kakaoStrategy = require('passport-kakao').Strategy;
 
 passport.serializeUser(function (user, done) {
@@ -16,8 +16,8 @@ passport.deserializeUser(function (user, done) {
 passport.use(
   new GoogleStrategy(
     {
-      clientID: google.client_id,
-      clientSecret: google.client_secret,
+      clientID: config.client_id_google,
+      clientSecret: config.client_secret,
       callbackURL: "/auth/google/callback",
       passReqToCallback: true,
     },
@@ -62,7 +62,7 @@ passport.use(
  * KAKAO LOGIN
  */
 passport.use('kakao-login', new kakaoStrategy({
-  clientID: '2b212c8495e1445374020dbc4d29da0b',
+  clientID: 'config.client_id_kakao',
   callbackURL: 'http://ec2-18-218-203-237.us-east-2.compute.amazonaws.com:8080/auth/kakao/callback',
 }, async(accessToken, refreshToken, profile, done) =>
 {
