@@ -3,7 +3,8 @@ var GoogleStrategy = require("passport-google-oauth2").Strategy;
 const User = require("../models/user");
 const Token = require("../models/token");
 const bcrypt = require("bcrypt");
-const google = require('./key');
+const config = require('./key');
+const kakaoStrategy = require('passport-kakao').Strategy;
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -15,8 +16,8 @@ passport.deserializeUser(function (user, done) {
 passport.use(
   new GoogleStrategy(
     {
-      clientID: google.client_id,
-      clientSecret: google.client_secret,
+      clientID: config.client_id_google,
+      clientSecret: config.client_secret,
       callbackURL: "/auth/google/callback",
       passReqToCallback: true,
     },
@@ -39,7 +40,7 @@ passport.use(
           const newUser = await User.create({
             email: profile.emails[0].value,
             password: hashedPassword,
-            nick: profile.displayName,
+            nickname: profile.displayName,
             snsId: profile.id,
             provider: "google",
           });
@@ -56,5 +57,52 @@ passport.use(
     }
   )
 );
+
+/*
+ * KAKAO LOGIN
+ */
+passport.use('kakao-login', new kakaoStrategy({
+  clientID: 'config.client_id_kakao',
+  callbackURL: 'http://ec2-18-218-203-237.us-east-2.compute.amazonaws.com:8080/auth/kakao/callback',
+}, async(accessToken, refreshToken, profile, done) =>
+{
+   //console.log(accessToken); 
+   //console.log(profile._json.kakao_account.email); 
+
+try {
+  const exUser = await User.findOne({
+    where: {
+      email: profile._json.kakao_account.email,
+      provider: "kakao",
+    },
+  });
+  if (exUser) { 
+    const kakaoToken = await Token.create({
+      accessToken: accessToken,
+      email: profile._json.kakao_account.email
+	   //{where: {email: profile._json.kakao_account.email}}
+    })
+    return done(null, exUser, kakaoToken);
+  } else {
+    const hashedPassword = await bcrypt.hash(profile.displayName, 11);
+    const newUser = await User.create({
+      email: profile._json.kakao_account.email,
+      password: hashedPassword,
+      nickname: profile.displayName,
+      snsId: profile.id,
+      provider: "kakao",
+    });
+    const kakaoToken = await Token.create({
+      accessToken: accessToken,
+      email: profile._json.kakao_account.email
+    });
+    done(null, newUser, kakaoToken);
+  }
+} catch (err) {
+  console.error(err);
+  done(err);
+}
+
+}));
 
 module.exports = passport;
