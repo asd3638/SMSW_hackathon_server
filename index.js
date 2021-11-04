@@ -1,13 +1,16 @@
 var express = require("express");
-var app = express();
+
 var passport = require("passport");
 var session = require("express-session");
 const { sequelize } = require("./models");
+const bodyParser = require("body-parser");
+var app = express();
 
 //app.set("view engine", "ejs");
 app.use(
   session({ secret: "MySecret", resave: false, saveUninitialized: true })
 );
+app.use(express.json())
 
 sequelize
   .sync({ force: false })

@@ -19,7 +19,6 @@ module.exports = class User extends Sequelize.Model {
       provider: {
         type: Sequelize.STRING(10),
         allowNull: false,
-        defaultValue: 'google',
       },
       snsId: {
         type: Sequelize.STRING(30),
@@ -36,6 +35,10 @@ module.exports = class User extends Sequelize.Model {
       charset: 'utf8',
       collate: 'utf8_general_ci',
     });
+  }
+  
+  static associate(db){
+    db.User.hasOne(db.Token, {foreignKey: 'user_id', sourceKey: 'id'});
   }
 
 };

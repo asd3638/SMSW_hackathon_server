@@ -24,4 +24,7 @@ db.Token = Token;
 User.init(sequelize);
 Token.init(sequelize);
 
+User.associate(db)
+Token.associate(db);
+
 module.exports = db;
