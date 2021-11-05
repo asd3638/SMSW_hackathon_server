@@ -5,15 +5,17 @@ const User = require("../models/user");
 const Token = require("../models/token");
 
 //요청받은 유저정보 보내기
-router.get("/user", async (req, res) => {
+router.get("/user/:token", async (req, res) => {
+  const accessToken = req.params.token;
   try {
-    console.log(req.body);
     const userId = await Token.findOne({
-      where: { accessToken: req.body.accessToken },
+      where: { accessToken },
     });
 
     if (userId) {
+      console.log(userId);
       const user = await User.findOne({ where: { id: userId.user_id } });
+      console.log(user);
       return res.send(user);
     }
   } catch (error) {

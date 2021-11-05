@@ -1,16 +1,17 @@
-var express = require("express");
-
-var passport = require("passport");
-var session = require("express-session");
+const express = require("express");
+const passport = require("passport");
+const session = require("express-session");
 const { sequelize } = require("./models");
 const bodyParser = require("body-parser");
-var app = express();
+const cors = require("cors");
+
+const app = express();
 
 //app.set("view engine", "ejs");
 app.use(
   session({ secret: "MySecret", resave: false, saveUninitialized: true })
 );
-app.use(express.json());
+app.use(cors());
 
 sequelize
   .sync({ force: false })
@@ -27,7 +28,6 @@ app.use(passport.session());
 
 app.use("/auth", require("./routes/auth"));
 app.use("/api", require("./routes/user"));
-app.get("/api", (req, res) => res.send("Hello World!"));
 
 // Port setting
 var port = 8080;
