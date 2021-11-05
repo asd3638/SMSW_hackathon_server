@@ -62,7 +62,7 @@ passport.use(
  * KAKAO LOGIN
  */
 passport.use('kakao-login', new kakaoStrategy({
-  clientID: 'config.client_id_kakao',
+  clientID: config.client_id_kakao,
   callbackURL: 'http://ec2-18-218-203-237.us-east-2.compute.amazonaws.com:8080/auth/kakao/callback',
 }, async(accessToken, refreshToken, profile, done) =>
 {
