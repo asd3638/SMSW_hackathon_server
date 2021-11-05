@@ -13,6 +13,7 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
+//구글 로그인
 passport.use(
   new GoogleStrategy(
     {
@@ -30,11 +31,24 @@ passport.use(
           },
         });
         if (exUser) {
-          const googleToken = await Token.create({
-            accessToken: accessToken,
-            user_id: exUser.id,
+          const exToken = await Token.findOne({
+            where: { user_id: exUser.id },
           });
-          return done(null, exUser, googleToken);
+
+          if (exToken) {
+            await Token.update(
+              { accessToken: accessToken },
+              { where: { user_id: exUser.id } }
+            );
+            //console.log("token updated");
+            return done(null, exUser, exToken);
+          } else {
+            const googleToken = await Token.create({
+              accessToken: accessToken,
+              user_id: exUser.id,
+            });
+            return done(null, exUser, googleToken);
+          }
         } else {
           const hashedPassword = await bcrypt.hash(profile.displayName, 11);
           const newUser = await User.create({
