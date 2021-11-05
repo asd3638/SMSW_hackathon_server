@@ -4,15 +4,6 @@ var passport = require("../config/passport.js");
 const User = require("../models/user");
 const Token = require("../models/token");
 
-//로그아웃
-router.get("/api/users/logout", async (req, res) => {
-  req.logout(); //passport의 logout
-
-  //토큰 테이블의 토큰 삭제
-  await Token.destroy({ where: { user_id: req.body.id } });
-  //console.log("token deleted")
-  res.redirect("/");
-});
 
 /*
  * GOOGLE LOGIN

@@ -23,4 +23,18 @@ router.get("/user/:token", async (req, res) => {
   }
 });
 
+
+//로그아웃
+router.get("/user/logout/:token", async (req, res) => {
+  const accessToken = req.params.token;
+  try {
+    await Token.destroy({ where: { accessToken: accessToken } });
+    res.send("logout");
+  } catch (error) {
+    console.error(error);
+  }
+  
+});
+
+
 module.exports = router;
