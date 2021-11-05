@@ -29,12 +29,13 @@ router.get(
     failureRedirect: "http://localhost:3000",
   }),
   function (req, res) {
-    console.log("###################################################");
     const token = {
       accessToken: req.authInfo.dataValues.accessToken,
       email: req.authInfo.dataValues.email,
     };
-    res.redirect(`http://localhost:3000?accessToken=${token.accessToken}`);
+    res.redirect(
+      `http://localhost:3000/login?accessToken=${token.accessToken}`
+    );
   }
 );
 
