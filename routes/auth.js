@@ -4,7 +4,6 @@ var passport = require("../config/passport.js");
 const User = require("../models/user");
 const Token = require("../models/token");
 
-
 /*
  * GOOGLE LOGIN
  */
@@ -42,11 +41,14 @@ router.get(
     failureRedirect: "http://localhost:3000/login",
   }),
   function (req, res) {
+    console.log(req);
     const token = {
       accessToken: req.authInfo.dataValues.accessToken,
       email: req.authInfo.dataValues.email,
     };
-    res.redirect(`http://localhost:3000?accessToken=${token.accessToken}`);
+    res.redirect(
+      `http://localhost:3000/login?accessToken=${token.accessToken}`
+    );
   }
 );
 
