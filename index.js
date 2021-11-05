@@ -12,6 +12,9 @@ app.use(
   session({ secret: "MySecret", resave: false, saveUninitialized: true })
 );
 app.use(cors());
+app.use(express.urlencoded({extended:true})); 
+app.use(express.json());
+
 
 sequelize
   .sync({ force: false })
@@ -28,6 +31,7 @@ app.use(passport.session());
 
 app.use("/auth", require("./routes/auth"));
 app.use("/api", require("./routes/user"));
+app.use("/board", require("./routes/post"));
 
 // Port setting
 var port = 8080;
