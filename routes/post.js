@@ -1,5 +1,7 @@
 const express = require('express');
 const { User, Post } = require('../models');
+const sequelize = require('sequelize');
+const Op = sequelize.Op;
 
 const router = express.Router();
 
@@ -56,7 +58,6 @@ router.get('/:id', async (req, res, next) => {
 
 // Update & Delete
 router.route('/edit/:id')   //post 테이블의 id
-
     .patch(async (req, res, next) => {
     const postId = req.params.id;
     const body = req.body;
@@ -70,7 +71,7 @@ router.route('/edit/:id')   //post 테이블의 id
             console.error(error);
             next(error);
         }
-})
+    })
     .delete(async (req,res,next) => {
         try {
             await Post.destroy( {
@@ -85,6 +86,27 @@ router.route('/edit/:id')   //post 테이블의 id
     })
 
 
+
+  //search
+  router.get("/search/:searchWord", function(req, res, next){
+    const searchWord = req.params.searchWord
+
+    Post.findAll({
+      where:{
+          [Op.or]: 
+          [
+              { title: { [Op.like]: "%" + searchWord + "%" } },
+              { content: { [Op.like]: "%" + searchWord + "%" }}
+          ]
+      }
+    })
+      .then( result => {
+          res.json(result)
+      })
+      .catch( err => {
+          console.log(err)
+      })
+})
 
 
 module.exports = router;
