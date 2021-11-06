@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { Coupon, Symbol } = require('../models');
-
-
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 //사용가능한 쿠폰
 router.get('/:id/available', async (req, res, next) => {
@@ -95,7 +95,7 @@ router.get("/:searchWord", async(req, res, next) => {
 
   await Coupon.findAll({
       where:{
-          title: {
+          content: {
               [Op.like]: "%" + searchWord + "%"
               }
         }
