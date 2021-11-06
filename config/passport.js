@@ -12,6 +12,16 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
+function CheckEmail(str) {
+  var reg_email = /^([0-9a-zA-Z_\.-]+)@sookmyung.ac.kr/;
+  if (reg_email.test(str)) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 //구글 로그인
 passport.use(
   new GoogleStrategy(
@@ -21,23 +31,12 @@ passport.use(
       callbackURL: "/auth/google/callback",
       passReqToCallback: true,
     },
-    async function (request, accessToken, refreshToken, profile, done) {
+    async function (request, accessToken, refreshToken, profile, done, res) {
 
-      function CheckEmail(str) {
-        var reg_email = /^([0-9a-zA-Z_\.-]+)@sookmyung.ac.kr/;
-        if (reg_email.test(str)) {
-          console.log("숙명이메일 맞음");
-          console.log("숙명이메일 맞음");
-          console.log("숙명이메일 맞음");
-          console.log("숙명이메일 맞음");
-        }
-        else {
-          console.log("숙명이메일 아님");console.log("숙명이메일 아님");
-          console.log("숙명이메일 아님");
-          console.log("숙명이메일 아님");
-        }
+      if(!CheckEmail(profile.emails[0].value)) { 
+        done("err");
       }
-      CheckEmail(profile.emails[0].value);
+      
       try {
         const exUser = await User.findOne({
           where: {
