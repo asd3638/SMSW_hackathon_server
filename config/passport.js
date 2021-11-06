@@ -31,7 +31,7 @@ passport.use(
       callbackURL: "/auth/google/callback",
       passReqToCallback: true,
     },
-    async function (request, accessToken, refreshToken, profile, done) {
+    async function (req, accessToken, refreshToken, profile, done) {
 
       if(CheckEmail(profile.emails[0].value)) { 
         try {
