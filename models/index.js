@@ -6,6 +6,7 @@ const User = require("./user");
 const Token = require("./token");
 const Coupon = require("./coupon");
 const Store = require("./store");
+const Symbol = require("./symbol");
 //const Post = require('./post');
 
 const db = {};
@@ -26,6 +27,7 @@ db.User = User;
 db.Token = Token;
 db.Coupon = Coupon;
 db.Store = Store;
+db.Symbol = Symbol;
 //db.Post = Post;
 
 
@@ -33,6 +35,7 @@ User.init(sequelize);
 Token.init(sequelize);
 Coupon.init(sequelize);
 Store.init(sequelize);
+Symbol.init(sequelize);
 //Post.init(sequelize);
 
 
@@ -41,6 +44,7 @@ User.associate(db)
 Token.associate(db);
 Coupon.associate(db);
 Store.associate(db);
+Symbol.associate(db);
 //Post.associate(db);
 
 
