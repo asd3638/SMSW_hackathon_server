@@ -2,7 +2,6 @@ const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
 const { sequelize } = require("./models");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
@@ -31,7 +30,7 @@ app.use(passport.session());
 
 app.use("/auth", require("./routes/auth"));
 app.use("/api", require("./routes/user"));
-app.use("/board", require("./routes/post"));
+app.use("/api/board", require("./routes/post"));
 
 // Port setting
 var port = 8080;
