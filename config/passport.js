@@ -31,7 +31,7 @@ passport.use(
       callbackURL: "/auth/google/callback",
       passReqToCallback: true,
     },
-    async function (request, accessToken, refreshToken, profile, done) {
+    async function (req, accessToken, refreshToken, profile, done) {
 
       if(CheckEmail(profile.emails[0].value)) { 
         try {
@@ -66,7 +66,7 @@ passport.use(
               email: profile.emails[0].value,
               password: hashedPassword,
               nickname: profile.displayName,
-              snsId: profile.id,
+              sns_id: profile.id,
               provider: "google",
             });
             const googleToken = await Token.create({
