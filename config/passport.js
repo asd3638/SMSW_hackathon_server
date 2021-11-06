@@ -22,6 +22,20 @@ passport.use(
       passReqToCallback: true,
     },
     async function (request, accessToken, refreshToken, profile, done) {
+      function CheckEmail(str) {
+        var reg_email = /^([0-9a-zA-Z_\.-]+)@sookmyung.ac.kr/;
+        if (!reg_email.test(str)) {
+          console.log("숙명이메일 맞음");
+          console.log("숙명이메일 맞음");
+          console.log("숙명이메일 맞음");
+          console.log("숙명이메일 맞음");
+        }
+        else {
+          console.log("숙명이메일 아님");console.log("숙명이메일 아님");
+          console.log("숙명이메일 아님");
+          console.log("숙명이메일 아님");
+        }
+      }
       try {
         const exUser = await User.findOne({
           where: {
