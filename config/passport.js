@@ -31,57 +31,60 @@ passport.use(
       callbackURL: "/auth/google/callback",
       passReqToCallback: true,
     },
-    async function (request, accessToken, refreshToken, profile, done, res) {
+    async function (request, accessToken, refreshToken, profile, done) {
 
-      if(!CheckEmail(profile.emails[0].value)) { 
-        done("err");
-      }
-      
-      try {
-        const exUser = await User.findOne({
-          where: {
-            email: profile.emails[0].value,
-            provider: "google",
-          },
-        });
-        if (exUser) {
-          const exToken = await Token.findOne({
-            where: { user_id: exUser.id },
+      if(CheckEmail(profile.emails[0].value)) { 
+        try {
+          const exUser = await User.findOne({
+            where: {
+              email: profile.emails[0].value,
+              provider: "google",
+            },
           });
-
-          if (exToken) {
-            await Token.update(
-              { accessToken: accessToken },
-              { where: { user_id: exUser.id } }
-            );
-            //console.log("token updated");
-            return done(null, exUser, exToken);
+          if (exUser) {
+            const exToken = await Token.findOne({
+              where: { user_id: exUser.id },
+            });
+  
+            if (exToken) {
+              await Token.update(
+                { accessToken: accessToken },
+                { where: { user_id: exUser.id } }
+              );
+              //console.log("token updated");
+              return done(null, exUser, exToken);
+            } else {
+              const googleToken = await Token.create({
+                accessToken: accessToken,
+                user_id: exUser.id,
+              });
+              return done(null, exUser, googleToken);
+            }
           } else {
+            const hashedPassword = await bcrypt.hash(profile.displayName, 11);
+            const newUser = await User.create({
+              email: profile.emails[0].value,
+              password: hashedPassword,
+              nickname: profile.displayName,
+              snsId: profile.id,
+              provider: "google",
+            });
             const googleToken = await Token.create({
               accessToken: accessToken,
-              user_id: exUser.id,
+              user_id: newUser.id,
             });
-            return done(null, exUser, googleToken);
+            done(null, newUser, googleToken);
           }
-        } else {
-          const hashedPassword = await bcrypt.hash(profile.displayName, 11);
-          const newUser = await User.create({
-            email: profile.emails[0].value,
-            password: hashedPassword,
-            nickname: profile.displayName,
-            snsId: profile.id,
-            provider: "google",
-          });
-          const googleToken = await Token.create({
-            accessToken: accessToken,
-            user_id: newUser.id,
-          });
-          done(null, newUser, googleToken);
+        } catch (err) {
+          console.error(err);
+          done(err);
         }
-      } catch (err) {
-        console.error(err);
-        done(err);
+      } else {
+        done(null);
       }
+
+
+      
     }
   )
 );
