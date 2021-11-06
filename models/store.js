@@ -36,6 +36,7 @@ module.exports = class Token extends Sequelize.Model {
   }
   static associate(db){
     db.Store.hasMany(db.Coupon, { foreignKey: 'store_id', sourceKey: 'id'}); 
+    db.Store.hasOne(db.Symbol, { foreignKey: 'store_id', sourceKey: 'id'});
   } 
 
 };
