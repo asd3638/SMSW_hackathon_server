@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 var sequelize = require("sequelize");
-
 const { Coupon, Symbol, Store, User } = require('../models');
 
 // get all store
@@ -47,17 +46,3 @@ router.get('/symbol/type=:type', async(req, res) => {
 })
 
 module.exports = router;
-[
-    {
-        "store_id": 3,
-        "count": 1
-    },
-    {
-        "store_id": 4,
-        "count": 2
-    },
-    {
-        "store_id": 5,
-        "count": 1
-    }
-]
