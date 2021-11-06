@@ -18,7 +18,7 @@ module.exports = class Token extends Sequelize.Model {
         },
         img: {
             type: Sequelize.TEXT,
-            allowNull: false,
+            allowNull: true,
         }
 
       },
