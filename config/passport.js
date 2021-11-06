@@ -12,6 +12,16 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
+function CheckEmail(str) {
+  var reg_email = /^([0-9a-zA-Z_\.-]+)@sookmyung.ac.kr/;
+  if (reg_email.test(str)) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 //구글 로그인
 passport.use(
   new GoogleStrategy(
@@ -22,51 +32,59 @@ passport.use(
       passReqToCallback: true,
     },
     async function (request, accessToken, refreshToken, profile, done) {
-      try {
-        const exUser = await User.findOne({
-          where: {
-            email: profile.emails[0].value,
-            provider: "google",
-          },
-        });
-        if (exUser) {
-          const exToken = await Token.findOne({
-            where: { user_id: exUser.id },
-          });
 
-          if (exToken) {
-            await Token.update(
-              { accessToken: accessToken },
-              { where: { user_id: exUser.id } }
-            );
-            //console.log("token updated");
-            return done(null, exUser, exToken);
+      if(CheckEmail(profile.emails[0].value)) { 
+        try {
+          const exUser = await User.findOne({
+            where: {
+              email: profile.emails[0].value,
+              provider: "google",
+            },
+          });
+          if (exUser) {
+            const exToken = await Token.findOne({
+              where: { user_id: exUser.id },
+            });
+  
+            if (exToken) {
+              await Token.update(
+                { accessToken: accessToken },
+                { where: { user_id: exUser.id } }
+              );
+              //console.log("token updated");
+              return done(null, exUser, exToken);
+            } else {
+              const googleToken = await Token.create({
+                accessToken: accessToken,
+                user_id: exUser.id,
+              });
+              return done(null, exUser, googleToken);
+            }
           } else {
+            const hashedPassword = await bcrypt.hash(profile.displayName, 11);
+            const newUser = await User.create({
+              email: profile.emails[0].value,
+              password: hashedPassword,
+              nickname: profile.displayName,
+              snsId: profile.id,
+              provider: "google",
+            });
             const googleToken = await Token.create({
               accessToken: accessToken,
-              user_id: exUser.id,
+              user_id: newUser.id,
             });
-            return done(null, exUser, googleToken);
+            done(null, newUser, googleToken);
           }
-        } else {
-          const hashedPassword = await bcrypt.hash(profile.displayName, 11);
-          const newUser = await User.create({
-            email: profile.emails[0].value,
-            password: hashedPassword,
-            nickname: profile.displayName,
-            snsId: profile.id,
-            provider: "google",
-          });
-          const googleToken = await Token.create({
-            accessToken: accessToken,
-            user_id: newUser.id,
-          });
-          done(null, newUser, googleToken);
+        } catch (err) {
+          console.error(err);
+          done(err);
         }
-      } catch (err) {
-        console.error(err);
-        done(err);
+      } else {
+        done(null);
       }
+
+
+      
     }
   )
 );
