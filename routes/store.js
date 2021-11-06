@@ -27,7 +27,6 @@ Coupon.belongsTo(Store, {
 router.get("/", async (req, res) => {
     try {
         const stores = await Store.findAll({ raw: true });
-        console.log(stores);
         if (stores) {
             res.status(200).json(stores);
         } else {
@@ -42,17 +41,44 @@ router.get("/", async (req, res) => {
 
 module.exports = router;
 
-// get all store with user_id 
+// get all store & coupon count with user_id 
 router.get("/:id", async (req, res) => {
+    var JSONArray = new Array();
+    var aJson = new Object();
+
     const user_id = req.params.id;
     try {
         const stores = await Store.findAll({ raw: true });
-        stores.forEach( async (value)=>{ 
+        
+        async function hello() {
+            stores.forEach( async (value) => { 
             const store_id = value.id;
             const count = await Coupon.count({ where: { user_id: user_id, store_id: store_id } });
-            console.log(count);
+    
+            var str = JSON.stringify(value);
+            var toJSON = str.substring(0, str.length-1) + `,\"count\":${count}}`;
+            await JSONArray.push(JSON.parse(toJSON));
         });
+        res.send(JSON.parse(JSON.stringify(JSONArray)));
+        };
+        
+        hello();
     } catch (error) {
         console.error(error);
     }
 });
+
+router.get('/delete/:coupon_id', async(req, res) => {
+    try {
+        const coupon_id = req.params.coupon_id;
+        await Coupon.destroy({where: {id: coupon_id}})
+        .then(result => {
+            res.status(200).send("SUCCESS");
+         })
+         .catch(err => {
+            console.error(err);
+         });
+    } catch(err) {
+        console.log(err);
+    }
+})
