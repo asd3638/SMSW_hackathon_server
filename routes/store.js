@@ -2,21 +2,6 @@ var express = require("express");
 var router = express.Router();
 const { Coupon, Symbol, Store, User } = require('../models');
 
-// get all store
-router.get("/", async (req, res) => {
-    try {
-        const stores = await Store.findAll({ raw: true });
-        if (stores) {
-            res.status(200).json(stores);
-        } else {
-            res.status(400).send("NO STORES");
-        }
-    } catch (error) {
-        console.error(error);
-        res.send(error);
-    }
-});
-
 
 // get all store & coupon count with user_id 
 router.get("/:user_id", async (req, res) => {
