@@ -12,7 +12,7 @@ router.get("/google",
 
 router.get("/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/login",
+    failureRedirect: "http://localhost:3000/check",
   }),
   function (req, res) {
     const token = {
@@ -20,7 +20,7 @@ router.get("/google/callback",
       email: req.authInfo.dataValues.email,
     };
 
-  res.redirect(`http://localhost:3000/login?accessToken=${token.accessToken}`);
+  res.redirect(`http://localhost:3000/check?accessToken=${token.accessToken}`);
     
   }
 );
