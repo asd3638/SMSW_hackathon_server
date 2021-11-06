@@ -1,15 +1,12 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("../config/passport.js");
-const User = require("../models/user");
-const Token = require("../models/token");
 
 /*
  * GOOGLE LOGIN
  */
 
-router.get(
-  "/google",
+router.get("/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
