@@ -3,8 +3,10 @@ const router = express.Router();
 const { Coupon, Symbol } = require('../models');
 
 
+
 //사용가능한 쿠폰
 router.get('/:id/available', async (req, res, next) => {
+
   try {
     const coupon = await Coupon.findAll(
       { where: { user_id: req.params.id },
@@ -20,6 +22,7 @@ router.get('/:id/available', async (req, res, next) => {
     next(error);
   }
 });
+
 
 //만료쿠폰
 router.get('/:id/expired', async (req, res, next) => {
@@ -39,6 +42,7 @@ router.get('/:id/expired', async (req, res, next) => {
     next(error);
   }
 });
+
 
 
 
