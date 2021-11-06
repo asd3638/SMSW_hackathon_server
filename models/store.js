@@ -24,7 +24,7 @@ module.exports = class Token extends Sequelize.Model {
       },
       {
         sequelize,
-        timestamps: true,
+        timestamps: false,
         underscored: false,
         modelName: "Store",
         tableName: "stores",
