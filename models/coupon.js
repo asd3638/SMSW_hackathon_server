@@ -37,5 +37,4 @@ module.exports = class Token extends Sequelize.Model {
     db.Coupon.belongsTo(db.User, { foreignKey: 'user_id', targetKey: 'id'}); 
     db.Coupon.belongsTo(db.Store, {foreignKey: "store_id", targetKey: "id"});
   } 
-
 };

@@ -1,11 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var passport = require("../config/passport.js");
-const User = require("../models/user");
-const Token = require("../models/token");
-const Store = require("../models/store");
-const Coupon = require("../models/coupon");
-const Symbol = require("../models/symbol");
+const { Coupon, Symbol, Store } = require('../models');
 
 // get all store
 router.get("/", async (req, res) => {
@@ -16,7 +11,6 @@ router.get("/", async (req, res) => {
         } else {
             res.status(400).send("NO STORES");
         }
-
     } catch (error) {
         console.error(error);
         res.send(error);
@@ -25,7 +19,7 @@ router.get("/", async (req, res) => {
 
 
 // get all store & coupon count with user_id 
-router.get("/:id", async (req, res) => {
+router.get("/:user_id", async (req, res) => {
     var JSONArray = new Array();
     const user_id = req.params.id;
     const stores = await Store.findAll({ raw: true });
@@ -47,22 +41,6 @@ router.get("/:id", async (req, res) => {
     
     res.send((JSONArray));
 });
-
-
-router.get('/delete/:coupon_id', async(req, res) => {
-    try {
-        const coupon_id = req.params.coupon_id;
-        await Coupon.destroy({where: {id: coupon_id}})
-        .then(result => {
-            res.status(200).send("SUCCESS");
-         })
-         .catch(err => {
-            console.error(err);
-         });
-    } catch(err) {
-        console.log(err);
-    }
-})
 
 // 심볼 별 가게 검색
 router.get('/symbol/type=:type', async(req, res) => {
