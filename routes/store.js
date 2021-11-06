@@ -22,9 +22,9 @@ router.get("/", async (req, res) => {
     }
 });
 
-module.exports = router;
 
-// get all store & coupon count with user_id 
+// get all store & coupon count with user_id  이거!
+/*
 router.get("/:id", async (req, res) => {
     var JSONArray = new Array();
     var aJson = new Object();
@@ -50,6 +50,7 @@ router.get("/:id", async (req, res) => {
         console.error(error);
     }
 });
+*/
 
 router.get('/delete/:coupon_id', async(req, res) => {
     try {
@@ -65,3 +66,5 @@ router.get('/delete/:coupon_id', async(req, res) => {
         console.log(err);
     }
 })
+
+module.exports = router;
