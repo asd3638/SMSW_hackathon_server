@@ -24,33 +24,26 @@ router.get("/", async (req, res) => {
 
 
 // get all store & coupon count with user_id  이거!
-/*
+//주는 id는 유저 id
 router.get("/:id", async (req, res) => {
     var JSONArray = new Array();
-    var aJson = new Object();
-
     const user_id = req.params.id;
-    try {
-        const stores = await Store.findAll({ raw: true });
-        
-        async function hello() {
-            stores.forEach( async (value) => { 
-            const store_id = value.id;
-            const count = await Coupon.count({ where: { user_id: user_id, store_id: store_id } });
-    
-            var str = JSON.stringify(value);
-            var toJSON = str.substring(0, str.length-1) + `,\"count\":${count}}`;
-            await JSONArray.push(JSON.parse(toJSON));
-        });
-        res.send(JSON.parse(JSON.stringify(JSONArray)));
-        };
-        
-        hello();
-    } catch (error) {
-        console.error(error);
+    const stores = await Store.findAll();
+    var i = 0
+    for (const store of stores) {
+
+        const store_id = i;
+        const count = await Coupon.count({ where: { user_id: user_id, store_id: store_id } });
+        var str = JSON.stringify(i);
+        var toJSON = str.substring(0, str.length-1) + `,\"count\":${count}}`;
+
+        JSONArray.push(JSON.parse(toJSON));
+        i++
+        //console.log(JSONArray);
     }
+
+    res.send((JSONArray));
 });
-*/
 
 router.get('/delete/:coupon_id', async(req, res) => {
     try {
