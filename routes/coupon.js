@@ -3,8 +3,8 @@ const router = express.Router();
 const { Coupon, Symbol } = require('../models');
 
 
-//사용자 쿠폰 정보 넘겨주기(MyPage용)
-router.get('/:id', async (req, res, next) => {
+//사용가능한 쿠폰
+router.get('/:id/available', async (req, res, next) => {
   try {
     const coupon = await Coupon.findAll(
       { where: { user_id: req.params.id },
@@ -21,15 +21,14 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-/*
- * ㄷ ㅏ오나...
-
-     여기 수정해  . .  .. .  * 
- 
-//위드숙명 심볼 클릭 시 그 심볼해당 가게 출력
-router.get('/:id', async (req, res, next) => {
+//만료쿠폰
+router.get('/:id/expired', async (req, res, next) => {
   try {
-    const coupon = await Coupon.findAll({ where: { user_id: req.params.id } });
+    const coupon = await Coupon.findAll(
+      { where: { user_id: req.params.id },
+        paranoid: false,
+        order: [['end_date', 'ASC']]
+      });
     if (coupon) {
       res.status(200).send(coupon);
     } else {
@@ -40,7 +39,8 @@ router.get('/:id', async (req, res, next) => {
     next(error);
   }
 });
-*/
+
+
 
 //지도에서 가게 마커 눌렀을 때 가게의 심볼 + 갖고 있는 쿠폰 출력
 router.get('/:user_id/:store_id', async (req, res, next) => {
@@ -80,5 +80,25 @@ router.delete('/:coupon_id', async(req, res) => {
       console.log(err);
   }
 })
+
+//쿠폰 검색
+router.get("/:searchWord", async(req, res, next) => {
+  const searchWord = req.params.searchWord
+
+  await Coupon.findAll({
+      where:{
+          title: {
+              [Op.like]: "%" + searchWord + "%"
+              }
+        }
+      })
+      .then( result => {
+          res.json(result)
+      })
+      .catch( err => {
+          console.log(err)
+      })
+})
+
 
 module.exports = router;
