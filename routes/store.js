@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { Coupon, Symbol, Store, User } = require('../models');
+const { Coupon, Symbol, Store } = require('../models');
 
 // get all store
 router.get("/", async (req, res) => {
