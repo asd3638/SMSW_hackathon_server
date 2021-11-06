@@ -7,7 +7,10 @@ const router = express.Router();
 router.get('/:user_id/:store_id', async (req, res, next) => {
   try {
     const store = await Store.findOne( {where: { id: req.params.store_id }})
-    const coupon = await Coupon.findAll({ where: { user_id: req.params.user_id, store_id: req.params.store_id } });
+    const coupon = await Coupon.findAll(
+      { where: { user_id: req.params.user_id, store_id: req.params.store_id },
+        order: [['end_date', 'ASC']]
+      });
     if (store) {
         if(coupon){
             var data = {store: store, coupon: coupon}

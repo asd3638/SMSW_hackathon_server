@@ -32,6 +32,7 @@ app.use("/auth", require("./routes/auth"));
 app.use("/api", require("./routes/user"));
 app.use("/api/coupon", require("./routes/coupon"));
 app.use("/api/map", require("./routes/map"));
+app.use("/api/with", require("./routes/with"));
 
 // Port setting
 var port = 8080;
