@@ -5,6 +5,7 @@ const User = require("../models/user");
 const Token = require("../models/token");
 const Store = require("../models/store");
 const Coupon = require("../models/coupon");
+const Symbol = require("../models/symbol");
 
 // get all store
 router.get("/", async (req, res) => {
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
         if (stores) {
             res.status(200).json(stores);
         } else {
-            res.status(400).send("NO STORE");
+            res.status(400).send("NO STORES");
         }
 
     } catch (error) {
@@ -23,27 +24,31 @@ router.get("/", async (req, res) => {
 });
 
 
-// get all store & coupon count with user_id  이거!
-//주는 id는 유저 id
+// get all store & coupon count with user_id 
 router.get("/:id", async (req, res) => {
     var JSONArray = new Array();
     const user_id = req.params.id;
-    const stores = await Store.findAll();
-    var i = 0
-    for (const store of stores) {
+    const stores = await Store.findAll({ raw: true });
+    var i = 0;
 
-        const store_id = i;
+    stores.forEach(async(value) => {
+    
+        const store_id = value.id;
         const count = await Coupon.count({ where: { user_id: user_id, store_id: store_id } });
-        var str = JSON.stringify(i);
+
+        var str = JSON.stringify(value);
         var toJSON = str.substring(0, str.length-1) + `,\"count\":${count}}`;
 
         JSONArray.push(JSON.parse(toJSON));
+        console.log(i + "번째 반복 중");
         i++
-        //console.log(JSONArray);
-    }
-
+        console.log(JSONArray);
+    })
+    
     res.send((JSONArray));
 });
+
+
 
 router.get('/delete/:coupon_id', async(req, res) => {
     try {
@@ -60,4 +65,15 @@ router.get('/delete/:coupon_id', async(req, res) => {
     }
 })
 
+// 심볼 별 가게 검색
+router.get('/symbol/type=:type', async(req, res) => {
+    try {
+        const type = req.params.type;
+        
+    } catch(err) {
+        console.log(err);
+    }
+})
+
 module.exports = router;
+

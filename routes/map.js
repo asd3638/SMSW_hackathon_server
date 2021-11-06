@@ -1,25 +1,27 @@
 const express = require('express');
-const { Coupon, Store, Symbol } = require('../models');
+const { Coupon, Store } = require('../models');
 
 const router = express.Router();
 
-//지도에서 가게 마커 눌렀을 때 가게심볼 + 갖고 있는 쿠폰 출력
+//지도에서 가게 마커 눌렀을 때 가게정보 + 갖고 있는 쿠폰 출력
 router.get('/:user_id/:store_id', async (req, res, next) => {
   try {
+    const store = await Store.findOne( {where: { id: req.params.store_id }})
     const coupon = await Coupon.findAll(
       { where: { user_id: req.params.user_id, store_id: req.params.store_id },
         order: [['end_date', 'ASC']]
       });
-    const symbol = await Symbol.findAll( { where: { store_id : req.params.store_id } })
-    
-      if(coupon){
-          var data = {coupon: coupon, symbol: symbol}
-          res.send(data)
-      }
-      else {
-          res.send(symbol)
-      }
-    
+    if (store) {
+        if(coupon){
+            var data = {store: store, coupon: coupon}
+            res.send(data)
+        }
+        else {
+            res.send(store)
+        }
+    } else {
+      res.status(400).send('no store');
+    }
   } catch (error) {
     console.error(error);
     next(error);
