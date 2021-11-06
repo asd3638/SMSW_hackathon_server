@@ -19,6 +19,11 @@ module.exports = class Token extends Sequelize.Model {
         end_date: {
             type: Sequelize.DATE,
             allowNull: false,
+        },
+        ifDeleted: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false,
+          allowNull: true,
         }
       },
       {
