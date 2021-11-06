@@ -29,27 +29,4 @@ router.get(
   }
 );
 
-/*
- * KAKAO LOGIN
- */
-
-// /auth/kakao로 인증 요청보내면 passport.js로 가
-router.get("/kakao", passport.authenticate("kakao-login"));
-router.get(
-  "/kakao/callback",
-  passport.authenticate("kakao-login", {
-    failureRedirect: "http://localhost:3000/login",
-  }),
-  function (req, res) {
-    console.log(req);
-    const token = {
-      accessToken: req.authInfo.dataValues.accessToken,
-      email: req.authInfo.dataValues.email,
-    };
-    res.redirect(
-      `http://localhost:3000/login?accessToken=${token.accessToken}`
-    );
-  }
-);
-
 module.exports = router;
