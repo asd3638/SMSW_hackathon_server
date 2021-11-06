@@ -22,10 +22,10 @@ router.get('/:id/available', async (req, res, next) => {
 });
 
 //만료쿠폰
-router.get('/:id/expired', async (req, res, next) => {
+router.get('/expired/:id', async (req, res, next) => {
   try {
     const coupon = await Coupon.findAll(
-      { where: { user_id: req.params.id },
+      { where: { user_id: req.params.id, ifDeleted: true },
         paranoid: false,
         order: [['end_date', 'ASC']]
       });
@@ -69,7 +69,11 @@ router.get('/:user_id/:store_id', async (req, res, next) => {
 router.delete('/:coupon_id', async(req, res) => {
   try {
       const coupon_id = req.params.coupon_id;
+      await Coupon.update({
+        ifDeleted: true,
+      }, { where: { id: coupon_id }})
       await Coupon.destroy({where: {id: coupon_id}})
+      
       .then(result => {
           res.status(200).send("SUCCESS");
        })
