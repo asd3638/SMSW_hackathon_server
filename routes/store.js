@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("../config/passport.js");
-var async = require('async');
 const User = require("../models/user");
 const Token = require("../models/token");
 const Store = require("../models/store");
@@ -24,7 +23,6 @@ router.get("/", async (req, res) => {
     }
 });
 
-module.exports = router;
 
 // get all store & coupon count with user_id 
 router.get("/:id", async (req, res) => {
@@ -65,3 +63,16 @@ router.get('/delete/:coupon_id', async(req, res) => {
         console.log(err);
     }
 })
+
+// 심볼 별 가게 검색
+router.get('/symbol/type=:type', async(req, res) => {
+    try {
+        const type = req.params.type;
+        
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+module.exports = router;
+
