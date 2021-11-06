@@ -66,7 +66,7 @@ passport.use(
               email: profile.emails[0].value,
               password: hashedPassword,
               nickname: profile.displayName,
-              snsId: profile.id,
+              sns_id: profile.id,
               provider: "google",
             });
             const googleToken = await Token.create({
