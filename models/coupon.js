@@ -4,22 +4,29 @@ module.exports = class Token extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        accessToken: {
+        store_id:{
+            type: Sequelize.INTEGER(40),
+            allowNull: false,
+        },
+        content: {
           type: Sequelize.STRING(200),
           allowNull: true,
-          unique: true,
         },
-        userId: {
+        user_id: {
           type: Sequelize.INTEGER(40),
-          allowNull: true,
+          allowNull: false,
         },
+        end_date: {
+            type: Sequelize.DATE,
+            allowNull: false,
+        }
       },
       {
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: "Token",
-        tableName: "tokens",
+        modelName: "Coupon",
+        tableName: "coupons",
         paranoid: true,
         charset: "utf8",
         collate: "utf8_general_ci",
@@ -27,7 +34,8 @@ module.exports = class Token extends Sequelize.Model {
     );
   }
   static associate(db){
-    db.Token.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'id'}); 
+    db.Coupon.belongsTo(db.User, { foreignKey: 'user_id', targetKey: 'id'}); 
+    db.Coupon.belongsTo(db.Store, {foreignKey: "store_id", targetKey: "id"});
   } 
 
 };
