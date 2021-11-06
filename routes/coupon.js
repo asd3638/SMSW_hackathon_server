@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 //사용자 쿠폰 정보 넘겨주기
-router.get('/coupon/:id', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const coupon = await Coupon.findAll({ where: { user_id: req.params.id } });
     if (coupon) {
