@@ -25,7 +25,7 @@ router.get('/:id/available', async (req, res, next) => {
 
 
 //만료쿠폰
-router.get('/expired/:id', async (req, res, next) => {
+router.get('/:id/expired', async (req, res, next) => {
   try {
     const coupon = await Coupon.findAll(
       { where: { user_id: req.params.id, ifDeleted: true },
