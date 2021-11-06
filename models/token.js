@@ -9,7 +9,7 @@ module.exports = class Token extends Sequelize.Model {
           allowNull: true,
           unique: true,
         },
-        userId: {
+        user_id: {
           type: Sequelize.INTEGER(40),
           allowNull: true,
         },
@@ -27,7 +27,7 @@ module.exports = class Token extends Sequelize.Model {
     );
   }
   static associate(db){
-    db.Token.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'id'}); 
+    db.Token.belongsTo(db.User, { foreignKey: 'user_id', targetKey: 'id'}); 
   } 
 
 };

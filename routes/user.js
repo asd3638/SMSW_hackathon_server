@@ -13,7 +13,7 @@ router.get("/user/:token", async (req, res) => {
     });
 
     if (userId) {
-      console.log(userId);
+      //console.log(userId);
       const user = await User.findOne({ where: { id: userId.user_id } });
       console.log(user);
       return res.send(user);
