@@ -21,9 +21,8 @@ router.get(
       email: req.authInfo.dataValues.email,
     };
 
-    res.redirect(
-      `http://localhost:3000/check?accessToken=${token.accessToken}`
-    );
+  res.redirect(`http://localhost:3000/check?accessToken=${token.accessToken}`);
+    
   }
 );
 
