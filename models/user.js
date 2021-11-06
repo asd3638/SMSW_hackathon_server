@@ -20,10 +20,18 @@ module.exports = class User extends Sequelize.Model {
         type: Sequelize.STRING(10),
         allowNull: false,
       },
-      snsId: {
+      sns_id: {
         type: Sequelize.STRING(30),
         allowNull: true,
       },
+      major: {
+        type: Sequelize.STRING(30),
+        allowNull: true,
+      },
+      student_id : {
+        type: Sequelize.INTEGER(10),
+        allowNull: true,
+      }
 
     }, {
       sequelize,
@@ -38,8 +46,8 @@ module.exports = class User extends Sequelize.Model {
   }
   
   static associate(db){
-    db.User.hasOne(db.Token, {foreignKey: 'user_id', sourceKey: 'id'});
-    db.User.hasMany(db.Post, {foreignKey: 'writter', sourceKey: 'id'});
+    db.User.hasMany(db.Token, {foreignKey: 'user_id', sourceKey: 'id'});
+    db.User.hasMany(db.Coupon, {foreignKey: 'user_id', sourceKey: 'id'});
   }
 
 };
