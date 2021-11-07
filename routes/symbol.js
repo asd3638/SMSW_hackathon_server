@@ -23,10 +23,13 @@ router.post('/', async(req, res) => {
         const type = req.body.symbol_type;
         const stores = await Symbol.findAll({where: {symbol_type: type}});
         const store_id = [];
+        const symbol_list = [];
         for (var i = 0; i<stores.length; i++){
-            store_id.push(stores[i].store_id);
+            var st_id = stores[i].store_id;
+            const store = await Store.findOne({where: {id: st_id}});
+            symbol_list.push(store);
         }
-        res.status(200).send(store_id);
+        res.status(200).send(symbol_list);
     } catch(err) {
         console.log(err);
     }
