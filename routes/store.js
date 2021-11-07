@@ -5,7 +5,6 @@ const { Coupon, Symbol, Store, User } = require('../models');
 
 // get all store & coupon count with user_id 
 router.get("/:user_id", async (req, res) => {
-    var JSONArray = new Array();
     const user_id = req.params.user_id;
     const stores = await Store.findAll({ 
     });

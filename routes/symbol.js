@@ -1,6 +1,18 @@
+const { response } = require("express");
 var express = require("express");
 var router = express.Router();
 const { Symbol, Store } = require('../models');
+
+//모든 심볼 타입 출력
+router.get('/', async(req,res) => {
+    try {
+        const symbol = await Symbol.findAll();
+        res.status(200).send(symbol);
+    } catch(err) {
+        console.log(err);
+    }
+    
+})
 
 // 심볼 별 가게 검색
 router.post('/', async(req, res) => {
