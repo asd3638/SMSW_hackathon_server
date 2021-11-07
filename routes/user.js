@@ -30,6 +30,7 @@ router.get("/logout/:token", async (req, res) => {
   }
 });
 
+// user 정보 수정
 router.route("/edit/:id")
       .patch (async (req, res) => {
         const user_id = req.params.id;

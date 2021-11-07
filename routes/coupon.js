@@ -88,8 +88,8 @@ router.delete("/:coupon_id", async (req, res) => {
 });
 
 //쿠폰 검색
-router.get("/:searchWord", async (req, res, next) => {
-  const searchWord = req.params.searchWord;
+router.get(`/:searchWord`, async (req, res, next) => {
+  const searchWord = decodeURIComponent(req.params.searchWord);
 
   await Coupon.findAll({
     where: {
