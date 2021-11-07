@@ -22,7 +22,13 @@ router.post('/', async(req, res) => {
     try {
         const type = req.body.symbol_type;
         const stores = await Symbol.findAll({where: {symbol_type: type}});
-        res.status(200).send(stores);
+        const symbol_list = [];
+        for (var i = 0; i<stores.length; i++){
+            var st_id = stores[i].store_id;
+            const store = await Store.findOne({where: {id: st_id}});
+            symbol_list.push(store);
+        }
+        res.status(200).send(symbol_list);
     } catch(err) {
         console.log(err);
     }
