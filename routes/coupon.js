@@ -23,7 +23,6 @@ router.get('/:id/available', async (req, res, next) => {
   }
 });
 
-
 //만료쿠폰
 router.get('/:id/expired', async (req, res, next) => {
   try {
@@ -42,9 +41,6 @@ router.get('/:id/expired', async (req, res, next) => {
     next(error);
   }
 });
-
-
-
 
 //지도에서 가게 마커 눌렀을 때 가게의 심볼 + 갖고 있는 쿠폰 출력
 router.get('/:user_id/:store_id', async (req, res, next) => {
@@ -77,9 +73,8 @@ router.delete('/:coupon_id', async(req, res) => {
         ifDeleted: true,
       }, { where: { id: coupon_id }})
       await Coupon.destroy({where: {id: coupon_id}})
-      
       .then(result => {
-          res.status(200).send("SUCCESS");
+          res.status(200).send("DELETE SUCCESS");
        })
        .catch(err => {
           console.error(err);

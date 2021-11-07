@@ -8,7 +8,6 @@ router.post('/', async(req, res) => {
         const type = req.body.symbol_type;
         const stores = await Symbol.findAll({where: {symbol_type: type}});
         res.status(200).send(stores);
-        
     } catch(err) {
         console.log(err);
     }

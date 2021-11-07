@@ -3,7 +3,6 @@ var router = express.Router();
 var sequelize = require("sequelize");
 const { Coupon, Symbol, Store, User } = require('../models');
 
-
 // get all store & coupon count with user_id 
 router.get("/:user_id", async (req, res) => {
     var JSONArray = new Array();
@@ -19,6 +18,5 @@ router.get("/:user_id", async (req, res) => {
     const data = {store: stores, count: count};
     res.send(data);
 });
-
 
 module.exports = router;
