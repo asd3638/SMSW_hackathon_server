@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Coupon, Symbol } = require('../models');
+const { Coupon, Symbol, Store } = require('../models');
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
@@ -12,10 +12,21 @@ router.get('/:id/available', async (req, res, next) => {
       { where: { user_id: req.params.id },
         order: [['end_date', 'ASC']]
       });
-    if (coupon) {
-      res.status(200).send(coupon);
+      var st_name = [];
+      for (var i = 0; i < coupon.length ; i++){
+        var st_id = coupon[i].store_id;
+        
+        if(typeof st_id !== "undefined"){
+          const store = await Store.findOne({ where : {id : st_id }});
+          st_name.push(store.name);
+        }
+      }
+      var data = {coupon: coupon, store_name : st_name}
+    
+      if (data) {
+      res.status(200).send(data);
     } else {
-      res.status(400).send('no coupon');
+      res.status(400).send('no data');
     }
   } catch (error) {
     console.error(error);
@@ -31,10 +42,21 @@ router.get('/:id/expired', async (req, res, next) => {
         paranoid: false,
         order: [['end_date', 'ASC']]
       });
-    if (coupon) {
-      res.status(200).send(coupon);
+      var st_name = [];
+      for (var i = 0; i < coupon.length ; i++){
+        var st_id = coupon[i].store_id;
+        
+        if(typeof st_id !== "undefined"){
+          const store = await Store.findOne({ where : {id : st_id }});
+          st_name.push(store.name);
+        }
+      }
+      var data = {coupon: coupon, store_name : st_name}
+    
+      if (data) {
+      res.status(200).send(data);
     } else {
-      res.status(400).send('no coupon');
+      res.status(400).send('no data');
     }
   } catch (error) {
     console.error(error);
