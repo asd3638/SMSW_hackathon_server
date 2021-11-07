@@ -8,8 +8,10 @@ const { Symbol, Store } = require('../models');
 router.get('/', async(req,res) => {
     try {
         const symbol = await Symbol.findAll({
-            attributes: [[sequelize.fn('DISTINCT', sequelize.col('symbol_type')), 'symbol_type']],
+            attributes: [[sequelize.fn('DISTINCT', sequelize.col('symbol_type')), 'symbol_type'],'content'],
+            group: ['symbol_type', 'content']
         });
+        //var data = {symbol: symbol, content: content};
         res.status(200).send(symbol);
     } catch(err) {
         console.log(err);
