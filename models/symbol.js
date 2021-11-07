@@ -10,7 +10,12 @@ module.exports = class User extends Sequelize.Model {
       symbol_type:{
         type: Sequelize.STRING(50),
         allowNull: false,
+      },   
+      content: {
+        type: Sequelize.STRING(200),
+        allowNull: true,
       }},
+      
      {
       sequelize,
       timestamps: false,
