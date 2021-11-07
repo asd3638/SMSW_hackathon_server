@@ -27,7 +27,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", require("./routes/auth"));
-app.use("/api/user", require("./routes/user"));
+app.use("/api/user", require("./routes/user"));``
 app.use("/api/coupon", require("./routes/coupon"));
 app.use("/api/store", require("./routes/store"));
 app.use("/api/symbol", require("./routes/symbol"));
