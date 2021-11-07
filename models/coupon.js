@@ -4,9 +4,9 @@ module.exports = class Token extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        store_id:{
-            type: Sequelize.INTEGER(40),
-            allowNull: false,
+        store_id: {
+          type: Sequelize.INTEGER(40),
+          allowNull: false,
         },
         content: {
           type: Sequelize.STRING(200),
@@ -17,14 +17,14 @@ module.exports = class Token extends Sequelize.Model {
           allowNull: false,
         },
         end_date: {
-            type: Sequelize.DATE,
-            allowNull: false,
+          type: Sequelize.DATE,
+          allowNull: false,
         },
         ifDeleted: {
           type: Sequelize.BOOLEAN,
           defaultValue: false,
           allowNull: true,
-        }
+        },
       },
       {
         sequelize,
@@ -38,8 +38,8 @@ module.exports = class Token extends Sequelize.Model {
       }
     );
   }
-  static associate(db){
-    db.Coupon.belongsTo(db.User, { foreignKey: 'user_id', targetKey: 'id'}); 
-    db.Coupon.belongsTo(db.Store, {foreignKey: "store_id", targetKey: "id"});
-  } 
+  static associate(db) {
+    db.Coupon.belongsTo(db.User, { foreignKey: "user_id", targetKey: "id" });
+    db.Coupon.belongsTo(db.Store, { foreignKey: "store_id", targetKey: "id" });
+  }
 };
