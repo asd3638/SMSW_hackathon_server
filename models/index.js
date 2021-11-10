@@ -6,6 +6,9 @@ const Token = require("./token");
 const Coupon = require("./coupon");
 const Store = require("./store");
 const Symbol = require("./symbol");
+const Header = require("./header");
+const Slide = require("./slide");
+const Login = require("./login");
 
 const db = {};
 const sequelize = new Sequelize(
@@ -13,10 +16,10 @@ const sequelize = new Sequelize(
   config.username,
   config.password,
   {
-    'host': config.host,
-    'port': config.port,
-    'dialect': config.dialect,
-    logging: false
+    host: config.host,
+    port: config.port,
+    dialect: config.dialect,
+    logging: false,
   }
 );
 
@@ -26,14 +29,20 @@ db.Token = Token;
 db.Coupon = Coupon;
 db.Store = Store;
 db.Symbol = Symbol;
+db.Header = Header;
+db.Slide = Slide;
+db.Login = Login;
 
 User.init(sequelize);
 Token.init(sequelize);
 Coupon.init(sequelize);
 Store.init(sequelize);
 Symbol.init(sequelize);
+Header.init(sequelize);
+Slide.init(sequelize);
+Login.init(sequelize);
 
-User.associate(db)
+User.associate(db);
 Token.associate(db);
 Coupon.associate(db);
 Store.associate(db);

@@ -29,10 +29,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", require("./routes/auth"));
-app.use("/api/user", require("./routes/user"));``
+app.use("/api/user", require("./routes/user"));
 app.use("/api/coupon", require("./routes/coupon"));
 app.use("/api/store", require("./routes/store"));
 app.use("/api/symbol", require("./routes/symbol"));
+app.use("/api/header", require("./routes/header"));
+app.use("/api/slide", require("./routes/slide"));
+app.use("/api/login", require("./routes/login"));
 
 // Port setting
 var port = 8080;
